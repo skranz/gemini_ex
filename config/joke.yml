@@ -1,0 +1,8 @@
+# This configurations will be used for
+# prompts joke.txt or all that match joke__*.txt
+
+# non-specified fields will be taken from _default.yml
+
+model: gemini-1.5-flash
+
+temperature: 0.9

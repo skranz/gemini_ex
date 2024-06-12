@@ -1,0 +1,10 @@
+# These configurations will be used for multi_joke.txt
+
+model: gemini-1.5-flash
+
+json_mode: TRUE
+
+temperature: 0.8
+
+# "json" or "Rds"
+output_format: json

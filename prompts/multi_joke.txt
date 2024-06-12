@@ -1,0 +1,6 @@
+Please find 5 nice topics for a joke and then just return a JSON output according to the following schema:
+
+{[
+"topic": "the joke topic"
+"joke": "A small joke about this topic"
+]}
