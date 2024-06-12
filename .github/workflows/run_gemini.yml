@@ -17,6 +17,5 @@ jobs:
       run: docker run --rm --name gha_gemi --env API_KEY="${{ secrets.API_KEY }}" -v $GITHUB_WORKSPACE/scripts/:/root/scripts/:rw -v $GITHUB_WORKSPACE/prompts/:/root/prompts/:rw -v $GITHUB_WORKSPACE/config/:/root/config/:rw  -v $GITHUB_WORKSPACE/output:/root/output:rw gemini_ex/gha_gemi R -e 'Sys.setenv("PATH" = paste(Sys.getenv("PATH"),"/usr/local/stata/",sep=":")); source("~/scripts/run.R")'
     - uses: actions/upload-artifact@v4
       with:
-        name: repbox_results
-#        path: ${{ github.workspace }}/output/results.7z
+        name: gemini_results
         path: ${{ github.workspace }}/output/

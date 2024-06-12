@@ -21,7 +21,7 @@ perform_analysis = function() {
     prompt_name = tools::file_path_sans_ext(basename(file))
     cat("\n\n****", prompt_name, "***\n")
     res = analyse_prompt_file(file, config_df=config_df, api_key = API_KEY)
-    out_file = paste0(outdir, "/", prompt_type,".Rds")
+    out_file = paste0(outdir, "/", prompt_name,".Rds")
     saveRDS(res, out_file)
   }
 
