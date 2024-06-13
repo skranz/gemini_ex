@@ -3,6 +3,7 @@
 
 # non-specified fields will be taken from _default.yml
 
-model: gemini-1.5-flash
+#model: gemini-1.5-flash
+model: embedding-001
 
 embedding: TRUE
