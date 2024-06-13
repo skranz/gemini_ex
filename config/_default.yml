@@ -7,3 +7,6 @@ model: gemini-1.5-flash
 json_mode: FALSE
 
 temperature: 0.0
+
+# If TRUE generate an embedding instead of a prompt completion
+embedding: FALSE

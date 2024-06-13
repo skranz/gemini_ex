@@ -4,7 +4,7 @@ escape_quotes = function(txt, double_quotes=TRUE, single_quotes=TRUE) {
   }
   if (double_quotes) {
     txt = gsub('"','\\"',txt, fixed=TRUE)
-  }  
+  }
   txt
 }
 
@@ -19,10 +19,10 @@ example = function() {
 }
 
 gemini_result_to_df = function(res, ...) {
-  
+
   if (!is.null(res$error)) {
     li = c(
-      list(...), 
+      list(...),
       res[c("model","json_mode","temperature")],
       list(
         error = res$error$message,
@@ -32,7 +32,7 @@ gemini_result_to_df = function(res, ...) {
     )
   } else {
     li = c(
-      list(...), 
+      list(...),
       res[c("model","json_mode","temperature")],
       list(
         error = "",
@@ -50,7 +50,7 @@ run_gemini = function(prompt,api_key, model="gemini-1.5-flash", json_mode=FALSE,
   library(jsonlite)
 
   url = paste0("https://generativelanguage.googleapis.com/v1beta/models/", model,":generateContent?key=", api_key)
-  
+
   generationConfig = list(
     temperature = temperature
   )
@@ -58,7 +58,7 @@ run_gemini = function(prompt,api_key, model="gemini-1.5-flash", json_mode=FALSE,
     generationConfig$response_mime_type = "application/json"
   }
 
-  
+
   response <- POST(
     url = paste0("https://generativelanguage.googleapis.com/v1beta/models/", model,":generateContent"),
     query = list(key = api_key),
@@ -79,7 +79,59 @@ run_gemini = function(prompt,api_key, model="gemini-1.5-flash", json_mode=FALSE,
 
   # Output the content of the response
   json = content(response, "text")
-  
+
+  if (verbose) {
+    cat("\n\nResult:\n",nchar(json), " characters:\n\n",json)
+  }
+  library(jsonlite)
+  res = try(fromJSON(json),silent = TRUE)
+  if (is(res, "try-error")) {
+    res = list(status_code = status_code,parse_error=TRUE, json=json)
+    return(res)
+  }
+  res$status_code = status_code
+  res$parse_error = FALSE
+  if (add_prompt) {
+    res$prompt = prompt
+  }
+  res$model = model
+  res$json_mode = json_mode
+  res$temperature = temperature
+  res
+
+}
+
+
+run_gemini_embedding = function(text,api_key, model="gemini-1.5-flash",  add_text=FALSE, verbose=TRUE) {
+  library(httr)
+  library(jsonlite)
+
+  url = paste0("https://generativelanguage.googleapis.com/v1beta/models/", model,":generateEmbeddings?key=", api_key)
+
+
+  response <- POST(
+    url = paste0("https://generativelanguage.googleapis.com/v1beta/models/", model,":generateEmbeddings"),
+    query = list(key = api_key),
+    content_type_json(),
+    encode = "json",
+    body = list(
+      contents = list(
+        text = list(text=text)
+      )
+    )
+  )
+
+  # Check the status code of the response
+  status_code = status_code(response)
+
+  library(jsonlite)
+  cat("\nResponse from creating embedding:\n")
+
+  cat(jsonlite::toJSON(response))
+
+  # Output the content of the response
+  json = content(response, "text")
+
   if (verbose) {
     cat("\n\nResult:\n",nchar(json), " characters:\n\n",json)
   }

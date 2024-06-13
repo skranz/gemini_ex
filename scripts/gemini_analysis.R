@@ -37,7 +37,12 @@ analyse_prompt_file = function(file, config_df,  api_key,verbose=TRUE, add_promp
   config = get_prompt_config(file, config_df)
 
   prompt_name = tools::file_path_sans_ext(basename(file))
-  res = run_gemini(prompt, api_key, json_mode=config$json_mode, model=config$model, temperature = config$temperature)
+
+  if (isTRUE(config$embedding)) {
+    res = run_gemini_embedding(prompt, api_key,  model=config$model)
+  } else {
+    res = run_gemini(prompt, api_key, json_mode=config$json_mode, model=config$model, temperature = config$temperature)
+  }
 
   res$prompt_name = prompt_name
   if (isTRUE(config$add_prompt)) {
