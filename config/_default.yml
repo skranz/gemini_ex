@@ -8,5 +8,5 @@ json_mode: FALSE
 
 temperature: 0.0
 
-# If TRUE generate an embedding instead of a prompt completion
+# Currently creating embeddings does not yet work
 embedding: FALSE
