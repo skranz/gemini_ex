@@ -106,8 +106,7 @@ run_gemini_embedding = function(text,api_key, model="gemini-1.5-flash",  add_tex
   library(httr)
   library(jsonlite)
 
-  url = paste0("https://generativelanguage.googleapis.com/v1beta/models/", model,":generateEmbeddings?key=", api_key)
-
+  cat("\nCreate embedding:\n")
 
   response <- POST(
     url = paste0("https://generativelanguage.googleapis.com/v1beta/models/", model,":generateEmbeddings"),
@@ -125,9 +124,9 @@ run_gemini_embedding = function(text,api_key, model="gemini-1.5-flash",  add_tex
   status_code = status_code(response)
 
   library(jsonlite)
-  cat("\nResponse from creating embedding:\n")
+  #cat("\nResponse from creating embedding:\n")
 
-  cat(jsonlite::toJSON(response))
+  #cat(jsonlite::toJSON(response))
 
   # Output the content of the response
   json = content(response, "text")
