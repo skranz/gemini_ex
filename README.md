@@ -8,7 +8,7 @@
 
 `Settings -> Secrets and Variables -> Actions -> Repository Secrets`
 
-- Now you can copy all the prompts you want to ask as separate `.txt` files into the `prompts` of your repo. 
+- Now you can copy all the prompts you want to ask as separate `.txt` files into the `prompts` of your forked repo. 
 
 - You can also adapt the `.yml` configuration files in the `config` folder.
 
