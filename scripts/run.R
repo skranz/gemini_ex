@@ -22,5 +22,5 @@ try(writeLines(toJSON(res), "/root/output/result.json"))
 
 
 cat("\n\nEND TEST ANALYS\n\n")
-  
+
 }

@@ -1,5 +1,12 @@
+MAX_RUNTIME_SEC = 10 #5*60*60 # Max runtime on Github
+MIN_SEC_PER_PROMPT = 5 # Minimum number of seconds between prompts
+
+
 perform_analysis = function() {
   library(dplyr)
+
+  start_time = as.numeric(Sys.time())
+
   API_KEY = Sys.getenv("API_KEY")
   setwd("~")
   outdir = "/root/output"
@@ -18,11 +25,27 @@ perform_analysis = function() {
   file = first(prompt_files)
 
   for (file in prompt_files) {
+    prompt_start_time = as.numeric(Sys.time())
+
     prompt_name = tools::file_path_sans_ext(basename(file))
     cat("\n\n****", prompt_name, "***\n")
     res = analyse_prompt_file(file, config_df=config_df, api_key = API_KEY)
     out_file = paste0(outdir, "/", prompt_name,".Rds")
     saveRDS(res, out_file)
+
+    cur_time = as.numeric(Sys.time())
+
+    # Check total run time
+    if (cur_time - start_time > MAX_RUNTIME_SEC) {
+      cat("\nStop because total runtime exceeded ", MAX_RUNTIME_SEC, "\n")
+      return()
+    }
+    wait_sec = MIN_SEC_PER_PROMPT-(cur_time - prompt_start_time)
+    if (wait_sec > 0) {
+      cat("\nWait for ", round(wait_sec), "seconds...")
+      Sys.sleep(wait_sec)
+    }
+
   }
 
   cat("\n\nFINISHED\n\n")
