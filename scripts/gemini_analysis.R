@@ -1,4 +1,4 @@
-MAX_RUNTIME_SEC = 10 #5*60*60 # Max runtime on Github
+MAX_RUNTIME_SEC = 5*60*60 # Max runtime on Github
 MIN_SEC_PER_PROMPT = 5 # Minimum number of seconds between prompts
 
 
@@ -37,7 +37,7 @@ perform_analysis = function() {
 
     # Check total run time
     if (cur_time - start_time > MAX_RUNTIME_SEC) {
-      cat("\nStop because total runtime exceeded ", MAX_RUNTIME_SEC, "\n")
+      cat("\nStop because total runtime exceeded ", MAX_RUNTIME_SEC, " seconds.\n")
       return()
     }
     wait_sec = MIN_SEC_PER_PROMPT-(cur_time - prompt_start_time)
